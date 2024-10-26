@@ -52,6 +52,11 @@ def main():
     app_name = get_input("Name: ")
     commands = [domain, app_name]
 
+    user_home = os.path.expanduser("~")
+    output_dir = os.path.join(user_home, 'output_natix')
+
+    os.makedirs(output_dir, exist_ok=True)
+
     while True:
         answer = menu(commands)
         
@@ -71,8 +76,7 @@ def main():
             platform = get_input("Platform: ")
             commands.append(f'--platform \'{platform}\'')
         elif answer == 0:
-            output_dir = '../output_app'
-            temp_dir = f"{output_dir}/{app_name}-temp"
+            temp_dir = os.path.join(output_dir, f"{app_name}-temp")
             
             print("Generating app...")
             result = subprocess.run(
@@ -83,7 +87,7 @@ def main():
             print(result.stdout.decode())
             print(result.stderr.decode())
         
-            final_output_path = f"{output_dir}/{app_name}"
+            final_output_path = os.path.join(output_dir, app_name)
             if os.path.exists(final_output_path):
                 shutil.rmtree(final_output_path) 
             os.rename(temp_dir, final_output_path)
