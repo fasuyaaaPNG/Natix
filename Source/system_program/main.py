@@ -8,7 +8,6 @@ from system_check.node import check_node_installed
 from system_install.node import install_node
 from system_check.nativefier import check_nativefier_installed
 from system_install.nativefier import install_nativefier
-import streamlit as st
 
 def check_install():
     if not check_pip_installed():
