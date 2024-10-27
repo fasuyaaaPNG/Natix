@@ -1,1 +1,1 @@
-![natix logo](https://github.com/user-attachments/assets/da5279a0-2b23-4965-bd3f-0f264f01db24)
+![natix logo 560](https://github.com/user-attachments/assets/f557e158-60c2-473d-aaef-426fb6b35800)
