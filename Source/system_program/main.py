@@ -26,23 +26,6 @@ def parse_domain(domain):
 def get_input(prompt):
     return input(prompt).strip()
 
-def menu(commands):
-    command_string = f"nativefier {commands[1]} --target='{commands[0]}' " + " ".join(commands[2:] + ["./output_app/"])
-    print(f"""
-Options:
-1. Arch: the CPU architecture to build [choices: "x64", "armv7l", "arm64", "universal"]      
-2. Conceal: package the app source code into an asar archive [boolean: true or false]
-3. Electron version:
-4. Icon:
-5. Platform: default platform operating system [linux, windows, osx or mas]
-
-Your command right now: {command_string}
-
-0. Generate app
-              """)
-    answer = int(get_input(": "))
-    return answer
-
 def main():
     check_install()
     
@@ -56,45 +39,24 @@ def main():
     output_dir = os.path.join(user_home, 'output_natix')
 
     os.makedirs(output_dir, exist_ok=True)
-
-    while True:
-        answer = menu(commands)
-        
-        if answer == 1:
-            arch = get_input("Architecture: ")
-            commands.append(f'--arch \'{arch}\'') 
-        elif answer == 2:
-            conceal_input = get_input("Conceal app source code into an asar archive (true/false): ")
-            commands.append(f'--conceal \'{conceal_input}\'')  
-        elif answer == 3:
-            electron_version = get_input("Electron version: ")
-            commands.append(f'--electron-version \'{electron_version}\'')
-        elif answer == 4:
-            icon = get_input("Icon path: ")
-            commands.append(f'--icon \'{icon}\'')
-        elif answer == 5:
-            platform = get_input("Platform: ")
-            commands.append(f'--platform \'{platform}\'')
-        elif answer == 0:
-            temp_dir = os.path.join(output_dir, f"{app_name}-temp")
+    temp_dir = os.path.join(output_dir, f"{app_name}")
             
-            print("Generating app...")
-            result = subprocess.run(
-                ['nativefier', '--name', app_name, '--overwrite', domain, temp_dir] + commands[2:],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE
-            )
-            print(result.stdout.decode())
-            print(result.stderr.decode())
+    print("Generating app...")
+    result = subprocess.run(
+    ['nativefier', '--name', app_name, '--overwrite', domain, temp_dir],
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE
+    )
+    print(result.stdout.decode())
+    print(result.stderr.decode())
         
-            final_output_path = os.path.join(output_dir, app_name)
-            if os.path.exists(final_output_path):
-                shutil.rmtree(final_output_path) 
-            os.rename(temp_dir, final_output_path)
+    final_output_path = os.path.join(output_dir, app_name)
+    if os.path.exists(final_output_path):
+        shutil.rmtree(final_output_path) 
+        os.rename(temp_dir, final_output_path)
             
-            print(f"App saved at: {final_output_path}")
-            print(" ")
-            break
+    print(f"App saved at: {final_output_path}")
+    print(" ")
 
 if __name__ == "__main__":
     main()
