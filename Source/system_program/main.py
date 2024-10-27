@@ -39,24 +39,22 @@ def main():
     output_dir = os.path.join(user_home, 'output_natix')
 
     os.makedirs(output_dir, exist_ok=True)
-    temp_dir = os.path.join(output_dir, f"{app_name}")
-            
+
+    final_output_path = os.path.join(output_dir, app_name)
+
     print("Generating app...")
     result = subprocess.run(
-    ['nativefier', '--name', app_name, '--overwrite', domain, temp_dir],
-    stdout=subprocess.PIPE,
-    stderr=subprocess.PIPE
+        ['nativefier', '--name', app_name, '--overwrite', domain, final_output_path],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
     )
     print(result.stdout.decode())
     print(result.stderr.decode())
-        
-    final_output_path = os.path.join(output_dir, app_name)
+
     if os.path.exists(final_output_path):
-        shutil.rmtree(final_output_path) 
-        os.rename(temp_dir, final_output_path)
-            
-    print(f"App saved at: {final_output_path}")
-    print(" ")
+        print(f"App saved at: {final_output_path}")
+    else:
+        print("Failed to generate app.")
 
 if __name__ == "__main__":
     main()
