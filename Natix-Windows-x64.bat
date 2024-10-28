@@ -12,14 +12,14 @@ IF %ERRORLEVEL% EQU 0 (
 )
 
 REM Memastikan pip terinstal dan upgrade pip
-python -m ensurepip --default-pip
-python -m pip install --upgrade pip
+@REM ensurepip --default-pip
+@REM pip3 install --upgrade pip
 
 REM Menginstal Streamlit
 echo Menginstal Streamlit...
-python -m pip install streamlit
+pip3 install streamlit
 
 REM Menjalankan Streamlit
 echo Menjalankan Streamlit...
-python -m streamlit run ./Source/system_program/main.py
+streamlit run ./Source/system_program/main.py
 pause
