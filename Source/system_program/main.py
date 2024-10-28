@@ -1,4 +1,3 @@
-from library.imports import streamlit as st
 from library.imports import subprocess
 from library.imports import urlparse
 from library.imports import os
@@ -48,6 +47,8 @@ def generate_app(url, app_name):
     else:
         st.error("Failed to generate app.")
 
+check_install()
+from library.imports import streamlit as st
 st.title("Natix - Nativefier Xperience")
 
 url = st.text_input("Enter URL:", "")
