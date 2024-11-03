@@ -25,4 +25,4 @@ echo "Installing Streamlit..."
 pip3 install streamlit --upgrade
 
 echo "Running Streamlit app..."
-streamlit run ./Source/system_program/main.py
+python3 -m streamlit run ./Source/system_program/main.py
