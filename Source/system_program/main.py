@@ -8,13 +8,6 @@ from system_install.node import install_node
 from system_check.nativefier import check_nativefier_installed
 from system_install.nativefier import install_nativefier
 
-def check_install():
-    if not check_pip_installed():
-        install_pip()
-    if not check_node_installed():
-        install_node()
-    if not check_nativefier_installed():
-        install_nativefier()
 
 def parse_domain(domain):
     if not (domain.startswith("http://") or domain.startswith("https://")):
@@ -23,7 +16,6 @@ def parse_domain(domain):
     return parsed_url.netloc
 
 def generate_app(url, app_name):
-    check_install()
     domain = parse_domain(url)
     
     user_home = os.path.expanduser("~")
@@ -36,7 +28,8 @@ def generate_app(url, app_name):
     result = subprocess.run(
         ['nativefier', '--name', app_name, '--overwrite', domain, final_output_path],
         stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE
+        stderr=subprocess.PIPE,
+        shell=True
     )
 
     st.text(result.stdout.decode())
@@ -47,8 +40,17 @@ def generate_app(url, app_name):
     else:
         st.error("Failed to generate app.")
 
-check_install()
 from library.imports import streamlit as st
+@st.cache_resource
+def check_install():
+    if not check_pip_installed():
+        install_pip()
+    if not check_node_installed():
+        install_node()
+    if not check_nativefier_installed():
+        install_nativefier()
+        
+check_install()
 st.title("Natix - Nativefier Xperience")
 
 url = st.text_input("Enter URL:", "")
