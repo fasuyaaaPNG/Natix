@@ -1,142 +1,59 @@
-![repository-open-graph](https://github.com/pwndbg/pwndbg/assets/150354584/77b2e438-898f-416f-a989-4bef30759627)
-# pwndbg
+![a](https://github.com/user-attachments/assets/4fbd0754-a374-4058-bbf6-55c12de63d02)
+# Natix
 
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://choosealicense.com/licenses/mit/)
-[![Unit tests](https://github.com/pwndbg/pwndbg/actions/workflows/tests.yml/badge.svg?branch=dev&event=push)](https://github.com/pwndbg/pwndbg/actions/workflows/tests.yml)
-[![codecov.io](https://codecov.io/github/pwndbg/pwndbg/graph/badge.svg?token=i1cBPFVCav)](https://codecov.io/github/pwndbg/pwndbg?branch=dev)
-[![Discord](https://img.shields.io/discord/843809097920413717?label=Discord&style=plastic)](https://discord.gg/x47DssnGwm)
 
-`pwndbg` (/paʊnˈdiˌbʌɡ/) is a GDB plug-in that makes debugging with GDB suck less, with a focus on features needed by low-level software developers, hardware hackers, reverse-engineers and exploit developers.
-
-It has a boatload of features, see [FEATURES.md](FEATURES.md) and [CHEATSHEET](https://drive.google.com/file/d/16t9MV8KTFXK7oX_CzXhmDdaVnjT8IYM4/view?usp=drive_link) (feel free to print it!).
-
+`Natix` is ​​a program to make it easier to use Nativefier without the need to install dependencies manually one by one and is available for various platforms ranging from Windows, MacOS (High Sierra and above), to Linux.
 ## Why?
 
-Vanilla GDB is terrible to use for reverse engineering and exploit development. Typing `x/g30x $esp` is not fun, and does not  confer much information.  The year is 2024 and GDB still lacks a real hexdump command!  GDB's syntax is arcane and difficult to approach.  Windbg users are completely lost when they occasionally need to bump into GDB.
+`Natix` was created to address common challenges and obstacles users face when using [Nativefier], particularly the need to manually install and manage dependencies. This process can often be confusing, time-consuming, and prone to compatibility issues, especially for users unfamiliar with setting up development environments.
+
+With Natix, users can benefit from:
+- Time Savings
+   All technical requirements are preconfigured, allowing users to start immediately without setting up a development environment.
+- Ease of Access: Natix supports multiple platforms, ensuring compatibility across systems.
+- Development Efficiency: Users can focus on application creation rather than installation or technical setup processes.
+- Increased Productivity: By eliminating manual steps, users can quickly produce desktop applications from web applications.
 
 ## What?
 
-Pwndbg is a Python module which is loaded directly into GDB, and provides a suite of utilities and crutches to hack around all of the cruft that is GDB and smooth out the rough edges.
+`Natix` is a program designed to revolutionize the way users interact with [Nativefier], a powerful tool that converts web applications into fully functional desktop applications. `Nativefier` itself is widely used due to its flexibility and open-source nature, but it often requires users to install and manage various dependencies manually, which can be a barrier for beginners or those unfamiliar with development environments.
 
-Many other projects from the past (e.g., [gdbinit][gdbinit], [PEDA][PEDA]) and present (e.g. [GEF][GEF]) exist to fill some these gaps.  Each provides an excellent experience and great features -- but they're difficult to extend (some are unmaintained, and all are a single [100KB][gdbinit2], [200KB][peda.py], or [363KB][gef.py] file (respectively)).
+With `Natix`, this challenge is eliminated. The program integrates all the components needed to run [Nativefier], streamlining the process into a user-friendly interface that works out of the box. `Natix` is prepackaged with everything necessary to harness the full capabilities of [Nativefier], enabling users to skip the technical hurdles and focus on transforming their favorite web applications into native desktop apps.
 
-Pwndbg exists not only to replace all of its predecessors, but also to have a clean implementation that runs quickly and is resilient against all the weird corner cases that come up.  It also comes batteries-included, so all of its features are available if you run `setup.sh`.
+[Nativefier]: https://github.com/nativefier/nativefier
 
-[gdbinit]: https://github.com/gdbinit/Gdbinit
-[gdbinit2]: https://github.com/gdbinit/Gdbinit/blob/master/gdbinit
-
-[PEDA]: https://github.com/longld/peda
-[peda.py]: https://github.com/longld/peda/blob/master/peda.py
-
-[GEF]: https://github.com/hugsy/gef
-[gef.py]: https://github.com/hugsy/gef/blob/master/gef.py
-
-## How?
-
-For a portable version with no external dependencies, scroll down for the [Portable Installation](#portable-installation) section.
+## How:
 
 Installation from source is straightforward:
 
-```shell
-git clone https://github.com/pwndbg/pwndbg
-cd pwndbg
-./setup.sh
-```
+### Installation on Windows (Win10+):
 
-Or install via the Nix package manager (you can use Nix on any distribution):
-```shell
-nix shell github:pwndbg/pwndbg
-pwndbg ./your-binary
-```
+    git clone https://github.com/fasuyaaaPNG/Natix.git
+  - open the Natix folder
+  - Right click on the `Natix-Windows-x64` file and select `Run as administrator`
+  - Follow the installation process
+  #### `Note: if there are errors during installation, try re-running the script`
 
-Pwndbg is supported on Ubuntu 22.04, and 24.04 with GDB 12.1 and later. We do not test on any older versions of Ubuntu, so `pwndbg` may not work on these versions.
-- For Ubuntu 20.04 use the [2024.08.29 release](https://github.com/pwndbg/pwndbg/releases/tag/2024.08.29)
-- For Ubuntu 18.04 use the [2023.07.17: ubuntu18.04-final release](https://github.com/pwndbg/pwndbg/releases/tag/2023.07.17)
-
-We may accept pull requests fixing issues in older versions on a case by case basis, please discuss this with us on [Discord](https://discord.gg/x47DssnGwm) first. You can also always checkout an older version of `pwndbg` from around the time the Ubuntu version you're interested in was still supported by Canonical, or you can attempt to build a newer version of GDB from source.
-
-Other Linux distributions are also supported via `setup.sh`, including:
-
-* Debian-based OSes (via apt-get)
-* Fedora and Red Hat (via dnf)
-* Clear (via swiped)
-* OpenSUSE LEAP (via zypper)
-* Arch and Manjaro (via community AUR packages)
-* Void (via xbps)
-* Gentoo (via emerge)
-
-If you use any Linux distribution other than Ubuntu, we recommend using the [latest available GDB](https://www.gnu.org/software/gdb/download/) built from source. You can build it as:
-```
-cd <gdb-sources-dir>
-mkdir build && cd build
-sudo apt install libgmp-dev libmpfr-dev libreadline-dev texinfo  # required by build
-../configure --disable-nls --disable-werror --with-system-readline --with-python=`which python3` --with-system-gdbinit=/etc/gdb/gdbinit --enable-targets=all
-make -j7
-```
-
-## Portable Installation:
-
-The portable version includes all necessary dependencies and should work without the need to install additional packages.
-
-### Download the Portable Version:
-
-Download the portable version from the [Pwndbg releases page](https://github.com/pwndbg/pwndbg/releases) by selecting the desired version.
-Choose the appropriate version for your system architecture (x86_64 or aarch64).
-
-### Installation on RPM-based Systems (CentOS/Alma/Rocky/RHEL):
+### Installation on Linux (Debian/Ubuntu/Arch) and MacOS(High Sierra+):
 
 ```shell
-dnf install ./pwndbg-2023.07.17.x86_64.rpm
-# pwndbg
+git clone https://github.com/fasuyaaaPNG/Natix.git
+cd Natix
+chmod +x Natix-Darwin-Linux-x64.sh
+./Natix-Darwin-Linux-x64.sh
 ```
+Or in one line command
 
-### Installation on DEB-based Systems (Debian/Ubuntu/Kali):
-
-```shell
-apt install ./pwndbg_2023.07.17_amd64.deb
-# pwndbg
-```
-
-### Installation on Alpine:
-
-```shell
-apk add --allow-untrusted ./pwndbg_2023.07.17_x86_64.apk
-# pwndbg
-```
-
-### Installation on Arch Linux:
-
-```shell
-pacman -U ./pwndbg-2023.07.17-1-x86_64.pkg.tar.zst
-# pwndbg
-```
-
-### Generic Linux Installation:
-
-```shell
-tar -v -xf ./pwndbg_2023.07.17_amd64.tar.gz
-# ./pwndbg/bin/pwndbg
-```
+    git clone https://github.com/fasuyaaaPNG/Natix.git && cd Natix && chmod +x Natix-Darwin-Linux-x64.sh && ./Natix-Darwin-Linux-x64.sh
+    
+- Follow the installation process
 
 ## What can I do with that?
 
-For further info about features/functionalities, see [FEATURES](FEATURES.md).
-
-## Who?
-
-Pwndbg is an open-source project, maintained by [many contributors](https://github.com/pwndbg/pwndbg/graphs/contributors)!
-
-Pwndbg was originally created by [Zach Riggle](https://github.com/zachriggle), who is no longer with us. We want to thank Zach for all of his contributions to Pwndbg and the wider security community.
-
-Want to help with development? Read [CONTRIBUTING](.github/CONTRIBUTING.md) or [join our Discord server](https://discord.gg/x47DssnGwm)!
-
-## How to develop?
-To run tests locally you can do this in docker image, after cloning repo run simply
-```shell
-docker-compose run main ./tests.sh
-```
-Disclaimer - this won't work on apple silicon macs.
+- Turning a website into a desktop application
+- Add a desktop application icon
+- specify the name of the desktop application
 
 ## Contact
-If you have any questions not worthy of a [bug report](https://github.com/pwndbg/pwndbg/issues), feel free to ping
-anybody on [Discord](https://discord.gg/x47DssnGwm) and ask away.
+If you have any questions not worthy of a [bug report](https://github.com/fasuyaaaPNG/Natix/issues) and ask away.
