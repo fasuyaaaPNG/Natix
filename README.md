@@ -1,4 +1,4 @@
-![a](https://github.com/user-attachments/assets/4fbd0754-a374-4058-bbf6-55c12de63d02)
+![natix2](https://github.com/user-attachments/assets/fbc70d1f-2e9b-4362-b024-d73849d14cb7)
 # Natix
 
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://choosealicense.com/licenses/mit/)
