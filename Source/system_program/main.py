@@ -25,17 +25,16 @@ def validate_url(url):
 def generate_app(url, app_name):
     try:
         valid_url = validate_url(url)
-        st.write("Generating app...")
-
         is_windows = platform.system() == 'Windows'
         shell_flag = is_windows
 
-        result = subprocess.run(
-            ['nativefier', valid_url, '--name', app_name, '--overwrite'],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            shell=shell_flag  
-        )
+        with st.spinner("Please wait, generating your app..."):
+            result = subprocess.run(
+                ['nativefier', valid_url, '--name', app_name, '--overwrite'],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                shell=shell_flag  
+            )
 
         st.text("Nativefier Output:")
         st.text(result.stdout.decode())

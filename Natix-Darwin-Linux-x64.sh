@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# Cek apakah Python 3 terinstal
 if ! command -v python3 &> /dev/null; then
-    echo "Python tidak ditemukan. Menginstal Python..."
+    echo "Python not found. Installing Python..."
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         if command -v pacman &> /dev/null; then
             sudo pacman -Sy --noconfirm python python-pip
@@ -10,28 +9,27 @@ if ! command -v python3 &> /dev/null; then
             sudo apt update
             sudo apt install -y python3 python3-pip
         else
-            echo "Manajer paket tidak dikenali. Harap instal Python secara manual."
+            echo "Package manager not recognized. Please install Python manually."
             exit 1
         fi
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         if ! command -v brew &> /dev/null; then
-            echo "Homebrew tidak ditemukan. Menginstal Homebrew..."
+            echo "Homebrew not found. Installing Homebrew..."
             /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
             echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
             eval "$(/opt/homebrew/bin/brew shellenv)"
         fi
         brew install python
     else
-        echo "OS tidak didukung. Harap instal Python secara manual."
+        echo "OS not supported. Please install Python manually."
         exit 1
     fi
 else
-    echo "Python telah terinstal."
+    echo "Python is already installed."
 fi
 
-# Cek apakah pip3 terinstal
 if ! command -v pip3 &> /dev/null; then
-    echo "pip3 tidak ditemukan. Menginstal pip3..."
+    echo "pip3 not found. Installing pip3..."
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         if command -v pacman &> /dev/null; then
             sudo pacman -Sy --noconfirm python-pip
@@ -39,53 +37,46 @@ if ! command -v pip3 &> /dev/null; then
             sudo apt update
             sudo apt install -y python3-pip
         else
-            echo "Manajer paket tidak dikenali. Harap instal pip3 secara manual."
+            echo "Package manager not recognized. Please install pip3 manually."
             exit 1
         fi
     elif [[ "$OSTYPE" == "darwin"* ]]; then
-        echo "Menginstal pip3 menggunakan ensurepip..."
+        echo "Installing pip3 using ensurepip..."
         python3 -m ensurepip --upgrade
     else
-        echo "OS tidak didukung. Harap instal pip3 secara manual."
+        echo "OS not supported. Please install pip3 manually."
         exit 1
     fi
 else
-    echo "pip3 telah terinstal."
+    echo "pip3 is already installed."
 fi
 
-# Menginstal Streamlit
-echo "Menginstal Streamlit..."
+echo "Installing Streamlit..."
 
-# Deteksi OS
 os_type=$(uname -s)
 
-# Cek apakah OS Linux
 if [[ "$os_type" == "Linux" ]]; then
-    # Periksa manajer paket (apt atau pacman)
     if command -v pacman &> /dev/null; then
-        echo "Manajer paket pacman ditemukan. Menginstal Streamlit dengan --break-system-packages..."
+        echo "pacman package manager found. Installing Streamlit with --break-system-packages..."
         pip3 install --user streamlit --break-system-packages
     elif command -v apt &> /dev/null; then
-        echo "Manajer paket apt ditemukan. Menginstal Streamlit..."
+        echo "apt package manager found. Installing Streamlit..."
         pip3 install --user streamlit
     else
-        echo "Manajer paket tidak dikenali. Menginstal Streamlit secara manual..."
+        echo "Package manager not recognized. Installing Streamlit manually..."
         pip3 install --user streamlit
     fi
 else
-    echo "OS terdeteksi: $os_type"
+    echo "OS detected: $os_type"
     pip3 install --user streamlit
 fi
 
-
-# Menambahkan pip user bin ke PATH jika tidak ada
 if ! echo "$PATH" | grep -q "$(python3 -m site --user-base)/bin"; then
-    echo "Menambahkan direktori pip user bin ke PATH..."
+    echo "Adding pip user bin directory to PATH..."
     export PATH="$(python3 -m site --user-base)/bin:$PATH"
     echo 'export PATH="$(python3 -m site --user-base)/bin:$PATH"' >> ~/.bashrc
     source ~/.bashrc
 fi
 
-# Menjalankan aplikasi Streamlit
-echo "Menjalankan aplikasi Streamlit..."
+echo "Running the Streamlit application..."
 python3 -m streamlit run ./Source/system_program/main.py

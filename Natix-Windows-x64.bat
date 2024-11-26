@@ -2,12 +2,12 @@
 REM Check if Python is installed
 python --version >nul 2>&1
 IF %ERRORLEVEL% EQU 0 (
-    echo Python sudah terinstal di sistem.
+    echo Python is already installed on the system.
 ) ELSE (
-    echo Python tidak ditemukan. Mengunduh dan membuka installer Python 3.11...
+    echo Python not found. Downloading and opening Python 3.11 installer...
     REM Download Python 3.11 from the Microsoft Store
     start /wait ms-windows-store://pdp/?productid=9NRWMJP3717K
-    echo Silakan lanjutkan instalasi Python 3.11 dari Microsoft Store, lalu tekan sembarang tombol untuk melanjutkan.
+    echo Please complete the installation of Python 3.11 from the Microsoft Store, then press any key to continue.
     pause
 )
 
@@ -16,11 +16,11 @@ REM Ensure pip is installed and upgrade pip
 @REM pip3 install --upgrade pip
 
 REM Install Streamlit
-echo Menginstal Streamlit...
+echo Installing Streamlit...
 pip install streamlit
 
 REM Run Streamlit
-echo Menjalankan Streamlit...
+echo Running Streamlit...
 set SCRIPT_PATH=%~dp0\Source\system_program\main.py
 python -m streamlit run "%SCRIPT_PATH%"
 pause

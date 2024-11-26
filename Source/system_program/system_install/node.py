@@ -7,46 +7,45 @@ def install_node():
     os_type = platform.system()
 
     if os_type == "Windows":
-        print("Mengunduh installer Node.js untuk Windows...")
+        print("Downloading Node.js installer for Windows...")
         nodejs_url = 'https://nodejs.org/dist/v18.16.0/node-v18.16.0-x64.msi'
 
         try:
             subprocess.run(['curl', nodejs_url, '-o', "node.msi"], check=True)
-            print("File installer berhasil diunduh.")
+            print("Installer file downloaded successfully.")
         except subprocess.CalledProcessError as e:
-            print(f"Gagal mengunduh file: {e}")
+            print(f"Failed to download the file: {e}")
             sys.exit(1)
         
-        print("Menginstal Node.js di Windows...")
+        print("Installing Node.js on Windows...")
         try:
             subprocess.run(['msiexec', '/i', "node.msi"], check=True)
-            print("Node.js berhasil diinstal.")
+            print("Node.js installed successfully.")
         except subprocess.CalledProcessError as e:
-            print(f"Gagal menginstal Node.js: {e}")
+            print(f"Failed to install Node.js: {e}")
             sys.exit(1)
 
     elif os_type == "Darwin":
-        print("Menginstal Node.js di macOS...")
+        print("Installing Node.js on macOS...")
         if shutil.which("brew") is None:
-            print("Homebrew tidak ditemukan. Harap instal Homebrew terlebih dahulu.")
+            print("Homebrew not found. Please install Homebrew first.")
             sys.exit(1)
         try:
             subprocess.run(['brew', 'install', 'node'], check=True)
-            print("Node.js berhasil diinstal di macOS.")
+            print("Node.js installed successfully on macOS.")
         except subprocess.CalledProcessError as e:
-            print(f"Gagal menginstal Node.js: {e}")
+            print(f"Failed to install Node.js: {e}")
             sys.exit(1)
 
     elif os_type == "Linux":
-        print("Menginstal Node.js di Linux...")
+        print("Installing Node.js on Linux...")
         try:
             if shutil.which("pacman"):
-                print("Menggunakan pacman di Arch Linux...")
+                print("Using pacman on Arch Linux...")
                 subprocess.run(['sudo', 'pacman', '-Sy', '--noconfirm', 'nodejs', 'npm'], check=True)
-                print("Node.js berhasil diinstal di Arch Linux.")
+                print("Node.js installed successfully on Arch Linux.")
             elif shutil.which("apt-get"):
-                print("Menggunakan apt-get di Debian/Ubuntu...")
-                # Tambahkan repository NodeSource untuk versi terbaru
+                print("Using apt-get on Debian/Ubuntu...")
                 subprocess.run(['sudo', 'apt-get', 'update'], check=True)
                 subprocess.run(
                     "curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -",
@@ -54,18 +53,17 @@ def install_node():
                     check=True
                 )
                 subprocess.run(['sudo', 'apt-get', 'install', '-y', 'nodejs'], check=True)
-                print("Node.js versi terbaru berhasil diinstal di Debian/Ubuntu.")
+                print("Latest version of Node.js installed successfully on Debian/Ubuntu.")
             else:
-                print("Manajer paket tidak dikenali. Harap instal Node.js secara manual.")
+                print("Package manager not recognized. Please install Node.js manually.")
                 sys.exit(1)
         except subprocess.CalledProcessError as e:
-            print(f"Gagal menginstal Node.js: {e}")
+            print(f"Failed to install Node.js: {e}")
             sys.exit(1)
 
     else:
-        print("Sistem operasi tidak didukung.")
+        print("Operating system not supported.")
         sys.exit(1)
 
-# Contoh pemanggilan fungsi
 if __name__ == "__main__":
     install_node()
