@@ -97,16 +97,13 @@ st.title("Natix - Nativefier Xperience")
 url = st.text_input("Enter the URL of the website you want to convert to a desktop app:", "")
 app_name = st.text_input("Enter the name for your app:", "")
 
-# Advanced options for icon and architecture
 with st.expander("Advanced Options"):
     icon_file = st.file_uploader("Upload an icon (for Linux: PNG, for Windows: ICO, for macOS: ICNS or PNG)", type=["png", "ico", "icns"])
     if icon_file:
-        # Save the icon file to the current working directory
         icon_file_name = icon_file.name
         icon_path = os.path.join(os.getcwd(), 'Source', 'image_icon', icon_file_name)
         with open(icon_path, "wb") as f:
             f.write(icon_file.getbuffer())
-        # Display the file path of the saved icon
         st.write(f"Icon file saved at: {icon_path}")
     else:
         icon_path = None
