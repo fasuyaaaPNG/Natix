@@ -53,7 +53,8 @@ Or in one line command
 
 - Turning a website into a desktop application
 - Add a desktop application icon
-- specify the name of the desktop application
+- Add architecture aplication
+- Specify the name of the desktop application
 
 ## Contact
 If you have any questions not worthy of a [bug report](https://github.com/fasuyaaaPNG/Natix/issues) and ask away.
