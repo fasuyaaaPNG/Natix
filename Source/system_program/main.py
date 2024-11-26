@@ -22,15 +22,45 @@ def validate_url(url):
     except Exception as e:
         raise ValueError(f"Invalid URL: {e}")
 
-def generate_app(url, app_name):
+def generate_app(url, app_name, icon_path=None, arch=None):
     try:
         valid_url = validate_url(url)
         is_windows = platform.system() == 'Windows'
+        is_mac = platform.system() == 'Darwin'
+        is_linux = platform.system() == 'Linux'
         shell_flag = is_windows
+
+        # Validate icon based on OS
+        if icon_path:
+            if is_linux and not icon_path.endswith('.png'):
+                st.error("For Linux, only PNG files are allowed.")
+                return
+            elif is_windows and not icon_path.endswith('.ico'):
+                st.error("For Windows, only ICO files are allowed.")
+                return
+            elif is_mac and not (icon_path.endswith('.icns') or icon_path.endswith('.png')):
+                st.error("For macOS, only ICNS or PNG files are allowed.")
+                return
+
+        # Advanced options for architecture
+        valid_arch = None
+        if arch:
+            if arch not in ['x64', 'armv7l', 'arm64', 'universal']:
+                st.error("Invalid architecture option. Choose from 'x64', 'armv7l', 'arm64', or 'universal'.")
+                return
+            valid_arch = arch
+
+        # Preparing the command arguments
+        command = ['nativefier', valid_url, '--name', app_name, '--overwrite']
+
+        if icon_path:
+            command.extend(['--icon', icon_path])
+        if valid_arch:
+            command.extend(['-a', valid_arch])
 
         with st.spinner("Please wait, generating your app..."):
             result = subprocess.run(
-                ['nativefier', valid_url, '--name', app_name, '--overwrite'],
+                command,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 shell=shell_flag  
@@ -67,8 +97,24 @@ st.title("Natix - Nativefier Xperience")
 url = st.text_input("Enter the URL of the website you want to convert to a desktop app:", "")
 app_name = st.text_input("Enter the name for your app:", "")
 
+# Advanced options for icon and architecture
+with st.expander("Advanced Options"):
+    icon_file = st.file_uploader("Upload an icon (for Linux: PNG, for Windows: ICO, for macOS: ICNS or PNG)", type=["png", "ico", "icns"])
+    if icon_file:
+        # Save the icon file to the current working directory
+        icon_file_name = icon_file.name
+        icon_path = os.path.join(os.getcwd(), 'Source', 'image_icon', icon_file_name)
+        with open(icon_path, "wb") as f:
+            f.write(icon_file.getbuffer())
+        # Display the file path of the saved icon
+        st.write(f"Icon file saved at: {icon_path}")
+    else:
+        icon_path = None
+    
+    arch = st.selectbox("Select Architecture (Optional)", ['x64', 'armv7l', 'arm64', 'universal', None])
+
 if st.button("Generate App"):
     if url and app_name:
-        generate_app(url, app_name)
+        generate_app(url, app_name, icon_path, arch)
     else:
         st.warning("Please provide both a valid URL and an app name.")

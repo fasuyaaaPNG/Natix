@@ -27,6 +27,8 @@ share/python-wheels/
 MANIFEST
 package-lock.json
 node_modules
+Source/image_icon/*
+!Source/image_icon/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
