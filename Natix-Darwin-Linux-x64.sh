@@ -59,13 +59,24 @@ echo "Menginstal Streamlit..."
 # Deteksi OS
 os_type=$(uname -s)
 
+# Cek apakah OS Linux
 if [[ "$os_type" == "Linux" ]]; then
-    echo "OS terdeteksi: Linux"
-    pip3 install --user streamlit --upgrade --break-system-packages
+    # Periksa manajer paket (apt atau pacman)
+    if command -v pacman &> /dev/null; then
+        echo "Manajer paket pacman ditemukan. Menginstal Streamlit dengan --break-system-packages..."
+        pip3 install --user streamlit --break-system-packages
+    elif command -v apt &> /dev/null; then
+        echo "Manajer paket apt ditemukan. Menginstal Streamlit..."
+        pip3 install --user streamlit
+    else
+        echo "Manajer paket tidak dikenali. Menginstal Streamlit secara manual..."
+        pip3 install --user streamlit
+    fi
 else
     echo "OS terdeteksi: $os_type"
-    pip3 install --user streamlit --upgrade
+    pip3 install --user streamlit
 fi
+
 
 # Menambahkan pip user bin ke PATH jika tidak ada
 if ! echo "$PATH" | grep -q "$(python3 -m site --user-base)/bin"; then

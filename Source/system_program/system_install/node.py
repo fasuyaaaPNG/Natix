@@ -46,9 +46,15 @@ def install_node():
                 print("Node.js berhasil diinstal di Arch Linux.")
             elif shutil.which("apt-get"):
                 print("Menggunakan apt-get di Debian/Ubuntu...")
+                # Tambahkan repository NodeSource untuk versi terbaru
                 subprocess.run(['sudo', 'apt-get', 'update'], check=True)
-                subprocess.run(['sudo', 'apt-get', 'install', '-y', 'nodejs', 'npm'], check=True)
-                print("Node.js berhasil diinstal di Debian/Ubuntu.")
+                subprocess.run(
+                    "curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -",
+                    shell=True,
+                    check=True
+                )
+                subprocess.run(['sudo', 'apt-get', 'install', '-y', 'nodejs'], check=True)
+                print("Node.js versi terbaru berhasil diinstal di Debian/Ubuntu.")
             else:
                 print("Manajer paket tidak dikenali. Harap instal Node.js secara manual.")
                 sys.exit(1)
