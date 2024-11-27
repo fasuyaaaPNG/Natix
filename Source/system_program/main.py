@@ -11,6 +11,7 @@ from system_install.node import install_node
 from system_check.nativefier import check_nativefier_installed
 from system_install.nativefier import install_nativefier
 
+
 def validate_url(url):
     if not (url.startswith("http://") or url.startswith("https://")):
         url = "http://" + url
@@ -21,6 +22,7 @@ def validate_url(url):
         return url
     except Exception as e:
         raise ValueError(f"Invalid URL: {e}")
+
 
 def generate_app(url, app_name, icon_path=None, arch=None):
     try:
@@ -81,6 +83,7 @@ def generate_app(url, app_name, icon_path=None, arch=None):
     except ValueError as e:
         st.error(f"Error: {e}")
 
+
 @st.cache_resource
 def check_install():
     if not check_pip_installed():
@@ -89,6 +92,7 @@ def check_install():
         install_node()
     if not check_nativefier_installed():
         install_nativefier()
+
 
 check_install()
 
@@ -100,11 +104,25 @@ app_name = st.text_input("Enter the name for your app:", "")
 with st.expander("Advanced Options"):
     icon_file = st.file_uploader("Upload an icon (for Linux: PNG, for Windows: ICO, for macOS: ICNS or PNG)", type=["png", "ico", "icns"])
     if icon_file:
+        # Pastikan root project dihitung berdasarkan struktur folder
+        project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+
+        # Path folder ikon relatif ke root project
+        icon_folder = os.path.join(project_root, 'source', 'image_icon')
+
+        # Pastikan folder ikon ada
+        os.makedirs(icon_folder, exist_ok=True)
+
+        # Simpan file ikon
         icon_file_name = icon_file.name
-        icon_path = os.path.join(os.getcwd(), 'Source', 'image_icon', icon_file_name)
-        with open(icon_path, "wb") as f:
-            f.write(icon_file.getbuffer())
-        st.write(f"Icon file saved at: {icon_path}")
+        icon_path = os.path.join(icon_folder, icon_file_name)
+
+        try:
+            with open(icon_path, "wb") as f:
+                f.write(icon_file.getbuffer())
+            st.write(f"Icon file saved at: {icon_path}")
+        except Exception as e:
+            st.error(f"Failed to save icon file: {e}")
     else:
         icon_path = None
     
