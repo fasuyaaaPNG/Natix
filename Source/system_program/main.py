@@ -104,16 +104,10 @@ app_name = st.text_input("Enter the name for your app:", "")
 with st.expander("Advanced Options"):
     icon_file = st.file_uploader("Upload an icon (for Linux: PNG, for Windows: ICO, for macOS: ICNS or PNG)", type=["png", "ico", "icns"])
     if icon_file:
-        # Pastikan root project dihitung berdasarkan struktur folder
         project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-
-        # Path folder ikon relatif ke root project
         icon_folder = os.path.join(project_root, 'source', 'image_icon')
-
-        # Pastikan folder ikon ada
         os.makedirs(icon_folder, exist_ok=True)
 
-        # Simpan file ikon
         icon_file_name = icon_file.name
         icon_path = os.path.join(icon_folder, icon_file_name)
 
