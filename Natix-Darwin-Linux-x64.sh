@@ -61,7 +61,7 @@ if [[ "$os_type" == "Linux" ]]; then
         pip3 install --user streamlit --break-system-packages
     elif command -v apt &> /dev/null; then
         echo "apt package manager found. Installing Streamlit..."
-        pip3 install --user streamlit
+        pip3 install --user streamlit --break-system-packages
     else
         echo "Package manager not recognized. Installing Streamlit manually..."
         pip3 install --user streamlit
