@@ -8,7 +8,7 @@ def install_node():
 
     if os_type == "Windows":
         print("Downloading Node.js installer for Windows...")
-        nodejs_url = 'https://nodejs.org/dist/v18.16.0/node-v18.16.0-x64.msi'
+        nodejs_url = 'https://nodejs.org/dist/v20.18.1/node-v20.18.1-x64.msi'
 
         try:
             subprocess.run(['curl', nodejs_url, '-o', "node.msi"], check=True)
@@ -48,7 +48,7 @@ def install_node():
                 print("Using apt-get on Debian/Ubuntu...")
                 subprocess.run(['sudo', 'apt-get', 'update'], check=True)
                 subprocess.run(
-                    "curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -",
+                    "curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -",
                     shell=True,
                     check=True
                 )
