@@ -105,7 +105,7 @@ with st.expander("Advanced Options"):
     icon_file = st.file_uploader("Upload an icon (for Linux: PNG, for Windows: ICO, for macOS: ICNS or PNG)", type=["png", "ico", "icns"])
     if icon_file:
         project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-        icon_folder = os.path.join(project_root, 'source', 'image_icon')
+        icon_folder = os.path.join(project_root, 'Source', 'image_icon')
         os.makedirs(icon_folder, exist_ok=True)
 
         icon_file_name = icon_file.name
